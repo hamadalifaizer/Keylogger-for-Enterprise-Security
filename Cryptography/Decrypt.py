@@ -2,11 +2,10 @@ from cryptography.fernet import Fernet
 import os
 
 
-folderName = "D:\Stuff\D studies\Adv dip of it\Semester 5\Applied projects\Keylogger\Project\log_files"
-encrypted_dir = f"{folderName}"
+folderName = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files"
 key = "BhbZu8TldX1E7eFjhfkppHVmbu7xZaW0XKMOI-eLXU4="  # enter key here
 
-folders = [j for j in os.listdir(encrypted_dir) if os.path.isfile(os.path.join(encrypted_dir, j))]
+folders = [j for j in os.listdir(folderName) if os.path.isfile(os.path.join(folderName, j))]
 for j in folders:
     x = "\\"
     z = folderName+x+j
@@ -21,5 +20,3 @@ for j in folders:
         f.write(decrypted)
 
 print("Files in folder decrypted")
-
-
