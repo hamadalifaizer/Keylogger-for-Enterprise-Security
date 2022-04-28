@@ -1,16 +1,15 @@
 from cryptography.fernet import Fernet
 import os
 
-
-folderName = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files"
+folderName = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files" # change to where the log files are stored
 key = "BhbZu8TldX1E7eFjhfkppHVmbu7xZaW0XKMOI-eLXU4="  # enter key here
+
 
 folders = [j for j in os.listdir(folderName) if os.path.isfile(os.path.join(folderName, j))]
 for j in folders:
-    x = "\\"
-    z = folderName+x+j
+    z = folderName+j
     with open(z, 'rb') as f:
-        # print(fileName)
+        #print(fileName)
         data = f.read()
     fernet = Fernet(key)
     decrypted = fernet.decrypt(data)
