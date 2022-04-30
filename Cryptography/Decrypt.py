@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 import os
 
-folderName = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files" # change to where the log files are stored
+folderName = "D:\\Stuff\\D studies\\Adv dip of it\\Semester 5\\Applied projects\\Keylogger-for-Enterprise-Security\\Project\\log_files\\" # change to where the log files are stored
 key = "BhbZu8TldX1E7eFjhfkppHVmbu7xZaW0XKMOI-eLXU4="  # enter key here
 
 
