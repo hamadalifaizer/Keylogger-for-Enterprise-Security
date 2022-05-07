@@ -9,13 +9,12 @@ outputs = f.fetch_history()
 his = outputs.histories
 outputs.save(file_path + 'history.json', output_format="json")
 
-#BrowserClass = default_browser()
+# BrowserClass = default_browser()
 
-#if BrowserClass is None:
+# if BrowserClass is None:
 #    print("Could not retrieve default browser")
 
-#else:
+# else:
 #    b = BrowserClass()
 #    his = b.fetch_history().histories
 #    his.save(file_path + 'history.json', output_format="json")
-
