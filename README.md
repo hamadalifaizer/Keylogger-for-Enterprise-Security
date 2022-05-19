@@ -73,5 +73,5 @@ Sometimes you may need to add runtime hooks on pyinstaller because some librarie
 Installing computer monitoring tools on computers you do not own or do not have permission to monitor may violate local, state or federal law. 
 Logging other people's keystrokes or breaking into other people's computer without their permission can be considered illegal by the courts of many countries. 
 
-### THIS SOFTWARE IS INTENDED ONLY FOR EDUCATION PURPOSES. DO NOT USE IT TO INFLICT DAMAGE TO ANYONE. USING THIS APPLICATION YOU AUTOMATICALLY AGREE WITH ALL THE RULES AND TAKE RESPONSIBILITY FOR YOUR ACTION. THE VIOLATION OF LAWS CAN CAUSE SERIOUS CONSEQUENCES. THE DEVELOPER [hamadalifaizer]([https://www.example.com](https://github.com/hamadalifaizer)) ASSUMES NO LIABILITY AND IS NOT RESPONSIBLE FOR ANY MISUSE OR DAMAGE CAUSED BY THIS PROGRAM.
+### THIS SOFTWARE IS INTENDED ONLY FOR EDUCATION PURPOSES. DO NOT USE IT TO INFLICT DAMAGE TO ANYONE. USING THIS APPLICATION YOU AUTOMATICALLY AGREE WITH ALL THE RULES AND TAKE RESPONSIBILITY FOR YOUR ACTION. THE VIOLATION OF LAWS CAN CAUSE SERIOUS CONSEQUENCES. THE DEVELOPER [hamadalifaizer](https://github.com/hamadalifaizer) ASSUMES NO LIABILITY AND IS NOT RESPONSIBLE FOR ANY MISUSE OR DAMAGE CAUSED BY THIS PROGRAM.
 
