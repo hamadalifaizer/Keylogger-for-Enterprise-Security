@@ -48,6 +48,7 @@ git clone https://github.com/hamadalifaizer/Keylogger-for-Enterprise-Security.gi
 pip3 install -r reqirements.txt
 
 #change keylog.py variables to fit your criteria
+#change number of seconds you want each iteration or each time the program will sftp to the server
 
 #compile keylog.py
 pyinstaller -F -w keylog.py
