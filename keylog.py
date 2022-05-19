@@ -17,9 +17,9 @@ screenshot_information = ""
 time_iterations = 200
 number_of_iterations_end = 20
 
-myHostname = "139.59.41.58"  # change this
+myHostname = ""  # change this
 myUsername = "root"  # change this
-myPassword = "#1Appliedproject"  # change this #should be 8 characters or more including special characters
+myPassword = ""  # change this #should be 8 characters or more including special characters
 log_dir = '/home/keylogger_log/log/'
 threat_dir = '/root/threat/'
 
