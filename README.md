@@ -31,13 +31,14 @@
 ```
 (latest versions)
 -Python 3.9
--Pillow 
--Opencv-python
--pysftp
--pywin32
--cryptography
--pynput
--pyinstaller
+-pip
+-Pillow 9.1.1
+-Opencv-python 4.5.5.64
+-pysftp 0.2.9
+-pywin32 304
+-cryptography 37.0.2
+-pynput 1.7.6
+-pyinstaller 5.1
 ```
 ## Usage
 ```
