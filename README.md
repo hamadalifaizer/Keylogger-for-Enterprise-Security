@@ -10,7 +10,7 @@
       | |     __/ |                              
       |_|    |___/                              
 ```
-      
+     
 ```   
 # Python Keylogger with Sftp Features
 
@@ -58,6 +58,12 @@ pyinstaller -F -w keylog.py
 ## How it works
 When you launch the executable it creates a new folder in C:/Users/Public called log Files where all the files will be stored. on one iteration keystrokes will be recorded and one screenshot will be taken and one Webcam shot will be taken. once all features are finished the program will then proceed to read the keylog text document where if any of the keywords are found it will sftp to the threat folder in the server if no keywords are found it will be sent to the log folder in the server. once the files have been transfered the files stored locally will be deleted. 
 
+## Demonstration video
+```
+Demonstration Video link:
+https://ecu.ap.panopto.com/Panopto/Pages/Viewer.aspx?id=8c8ddb6c-e741-4b25-bf42-ae9801545606
+
+```
 ## Note
 Sometimes you may need to add runtime hooks on pyinstaller because some libraires will not be added to the exectable. alternatively you may use pyarmor to create the executable however I have not tried this. 
 
@@ -66,3 +72,4 @@ Installing computer monitoring tools on computers you do not own or do not have 
 Logging other people's keystrokes or breaking into other people's computer without their permission can be considered illegal by the courts of many countries. 
 
 ### THIS SOFTWARE IS INTENDED ONLY FOR EDUCATION PURPOSES. DO NOT USE IT TO INFLICT DAMAGE TO ANYONE. USING THIS APPLICATION YOU ARE AUTHOMATICALLY AGREE WITH ALL RULES AND TAKE RESPONSIBITITY FOR YOUR ACTION. THE VIOLATION OF LAWS CAN CAUSE SERIOUS CONSEQUENCES! THE DEVELOPER `hamadalifaizer` ASSUMES NO LIABILITY AND IS NOT RESPONSIBLE FOR ANY MISUSE OR DAMAGE CAUSED BY THIS PROGRAM.
+
